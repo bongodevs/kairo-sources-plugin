@@ -1,0 +1,62 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            asset: sources-linux-x86_64.kai
+            file: libkairo_plugin_sources.so
+          - os: ubuntu-24.04-arm
+            target: aarch64-unknown-linux-gnu
+            asset: sources-linux-aarch64.kai
+            file: libkairo_plugin_sources.so
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            asset: sources-windows-x86_64.kai
+            file: kairo_plugin_sources.dll
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            asset: sources-macos-aarch64.kai
+            file: libkairo_plugin_sources.dylib
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.target }}
+      - name: Authorize the private Kairo dependency
+        shell: bash
+        env:
+          KAIRO_REPO_TOKEN: ${{ secrets.KAIRO_REPO_TOKEN }}
+        run: |
+          if [ -z "$KAIRO_REPO_TOKEN" ]; then
+            echo "::error::Add a KAIRO_REPO_TOKEN secret with read access to bongodevs/baka-susi"
+            exit 1
+          fi
+          git config --global url."https://x-access-token:${KAIRO_REPO_TOKEN}@github.com/".insteadOf "https://github.com/"
+      - name: Build
+        run: cargo build --release --locked --target ${{ matrix.target }}
+      - name: Package
+        shell: bash
+        run: |
+          cp "target/${{ matrix.target }}/release/${{ matrix.file }}" "${{ matrix.asset }}"
+          python -c "import hashlib,pathlib; p=pathlib.Path('${{ matrix.asset }}'); print(hashlib.sha256(p.read_bytes()).hexdigest() + '  ' + p.name)" > "${{ matrix.asset }}.sha256"
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ matrix.asset }}
+            ${{ matrix.asset }}.sha256

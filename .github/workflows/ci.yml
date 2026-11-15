@@ -1,0 +1,32 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      - name: Authorize the private Kairo dependency
+        shell: bash
+        env:
+          KAIRO_REPO_TOKEN: ${{ secrets.KAIRO_REPO_TOKEN }}
+        run: |
+          if [ -z "$KAIRO_REPO_TOKEN" ]; then
+            echo "::error::Add a KAIRO_REPO_TOKEN secret with read access to bongodevs/baka-susi"
+            exit 1
+          fi
+          git config --global url."https://x-access-token:${KAIRO_REPO_TOKEN}@github.com/".insteadOf "https://github.com/"
+      - run: cargo fmt --all --check
+      - run: cargo clippy --all-targets --all-features -- -D warnings
+      - run: cargo test --locked

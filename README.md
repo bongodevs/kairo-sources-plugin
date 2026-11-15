@@ -36,3 +36,16 @@ mirror = true
 
 The host stages the file under `plugins/.run/` and checks its ELF, PE or Mach-O header before loading.
 A build for another OS is rejected.
+
+## GitHub Actions
+
+- `.github/workflows/ci.yml` runs fmt, clippy and tests on `main` and pull requests.
+- `.github/workflows/release.yml` builds the four release assets on a `v*` tag:
+  `sources-{linux,windows,macos}-{x86_64,aarch64}.kai` plus `.sha256` files.
+
+Both workflows read `kairo-plugin-api` from the private `bongodevs/baka-susi` repository. Add a
+repository secret named `KAIRO_REPO_TOKEN` with read access to that repository; a fine-grained token
+with `Contents: read` is enough.
+
+The dependency currently follows the `chore/cleanup` branch. Switch `Cargo.toml` to `main` after the
+plugin API rename is merged.
