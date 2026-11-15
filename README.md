@@ -5,7 +5,8 @@ The bundled service-provider library for Kairo. One cdylib advertises only the p
 
 ## Build
 
-The crate fetches `kairo-plugin-api` from the Kairo repository, so it builds on its own:
+The crate fetches `kairo-plugin-api` from the [`Kairo`](https://github.com/bongodevs/Kairo)
+repository, so it builds on its own:
 
 ```bash
 git clone https://github.com/bongodevs/kairo-sources-plugin.git
@@ -43,8 +44,7 @@ A build for another OS is rejected.
 - `.github/workflows/release.yml` builds the four release assets on a `v*` tag:
   `sources-{linux,windows,macos}-{x86_64,aarch64}.kai` plus `.sha256` files.
 
-Both workflows read `kairo-plugin-api` from `https://github.com/bongodevs/baka-susi` over git, so
-that repository has to be public for the workflows to run without a token.
+Both workflows read `kairo-plugin-api` from `https://github.com/bongodevs/Kairo` over git, so that
+repository is public and the workflows run without a token.
 
-The dependency currently follows the `chore/cleanup` branch. Switch `Cargo.toml` to `main` after the
-plugin API rename is merged.
+`Cargo.toml` follows the `dev` branch, the branch the server ships from.
