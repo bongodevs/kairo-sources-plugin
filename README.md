@@ -45,7 +45,8 @@ A build for another OS is rejected.
 
 Both workflows read `kairo-plugin-api` from the private `bongodevs/baka-susi` repository. Add a
 repository secret named `KAIRO_REPO_TOKEN` with read access to that repository; a fine-grained token
-with `Contents: read` is enough.
+with `Contents: read` is enough. The workflow rewrites GitHub URLs through the git CLI, which
+`.cargo/config.toml` enables with `net.git-fetch-with-cli = true`.
 
 The dependency currently follows the `chore/cleanup` branch. Switch `Cargo.toml` to `main` after the
 plugin API rename is merged.
