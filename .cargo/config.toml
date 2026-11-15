@@ -1,3 +1,0 @@
-[net]
-# The workflow rewrites the private Kairo URL through the git CLI credential config.
-git-fetch-with-cli = true
