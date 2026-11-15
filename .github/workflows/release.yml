@@ -31,7 +31,7 @@ jobs:
             asset: sources-macos-aarch64.kai
             file: libkairo_plugin_sources.dylib
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.target }}
