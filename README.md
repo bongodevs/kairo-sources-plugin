@@ -25,7 +25,7 @@ cp kairo-sources-plugin/target/release/libkairo_plugin_sources.so kairo/plugins/
 [[plugin]]
 name = "sources"
 repo = "bongodevs/kairo-sources-plugin"
-tag = "v1.0.0"
+tag = "0.0.1-beta"
 
 [plugin.config.jiosaavn]
 enabled = true
