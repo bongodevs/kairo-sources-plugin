@@ -210,6 +210,7 @@ checksum = "3bd1574e617a9a6c1f8f8181bd7e841e1f20e4277607ef28945765188d6284d4"
 [[package]]
 name = "kairo-plugin-api"
 version = "0.1.0"
+source = "git+https://github.com/bongodevs/baka-susi?branch=chore%2Fcleanup#d31c462cdf92fb8b5dbef3e4952f2c82e3168958"
 dependencies = [
  "abi_stable",
  "async-ffi",

@@ -5,20 +5,18 @@ The bundled service-provider library for Kairo. One cdylib advertises only the p
 
 ## Build
 
-The crate depends on `kairo-plugin-api` by path, so it is checked out at `plugins/sources` inside a
-Kairo checkout:
+The crate fetches `kairo-plugin-api` from the Kairo repository, so it builds on its own:
 
 ```bash
-git clone https://github.com/appujet/baka-susi.git kairo
-git clone https://github.com/appujet/kairo-sources-plugin.git kairo/plugins/sources
-cargo build --release --manifest-path kairo/plugins/sources/Cargo.toml
+git clone https://github.com/bongodevs/kairo-sources-plugin.git
+cargo build --release --manifest-path kairo-sources-plugin/Cargo.toml
 ```
 
-Copy the built library to the install path. The `.kai` extension is the same on every OS; the
+Copy the built library into a Kairo checkout. The `.kai` extension is the same on every OS; the
 contents stay native to the machine that built them.
 
 ```bash
-cp kairo/plugins/sources/target/release/libkairo_plugin_sources.so kairo/plugins/sources.kai
+cp kairo-sources-plugin/target/release/libkairo_plugin_sources.so kairo/plugins/sources.kai
 ```
 
 ## Install
@@ -26,7 +24,7 @@ cp kairo/plugins/sources/target/release/libkairo_plugin_sources.so kairo/plugins
 ```toml
 [[plugin]]
 name = "sources"
-repo = "appujet/kairo-sources-plugin"
+repo = "bongodevs/kairo-sources-plugin"
 tag = "v1.0.0"
 
 [plugin.config.jiosaavn]
