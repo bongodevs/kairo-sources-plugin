@@ -11,14 +11,10 @@ crate-type = ["cdylib"]
 [lints.rust]
 unsafe_code = "forbid"
 
-# Standalone repository, checked out at `plugins/sources` in a Kairo checkout.
-[workspace]
-
 [dependencies]
 abi_stable = { version = "0.11", default-features = false }
 base64 = { version = "0.22", default-features = false, features = ["alloc"] }
 des = { version = "0.8", default-features = false }
-# The Kairo repository on the branch that carries the plugin API.
 kairo-plugin-api = { git = "https://github.com/bongodevs/baka-susi", package = "kairo-plugin-api", branch = "chore/cleanup" }
 regex = { version = "1", default-features = false, features = ["std", "perf"] }
 serde = { version = "1", features = ["derive"] }
